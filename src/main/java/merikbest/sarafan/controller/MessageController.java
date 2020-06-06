@@ -3,7 +3,7 @@ package merikbest.sarafan.controller;
 /*
 https://gist.github.com/drucoder/a1d8576e1d15be38aae5bac3f914b874
 
-ЗАПРОС В CHTOME:
+ЗАПРОС В CHROME:
  fetch('/message', { method: 'POST', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ text: 'Fourth message' })}).then(console.log)
 ГДЕ:
@@ -17,11 +17,6 @@ https://gist.github.com/drucoder/a1d8576e1d15be38aae5bac3f914b874
 
  метод fetch() возврашает "промис" это ассинзронный объект который после выполнения возврашает поток в метод then(),
  в котором лежит console.log (вывод в консоль) можно заменить анонимной функцией .then(result => console.log(result))
-
-
-
-
-
 
  */
 

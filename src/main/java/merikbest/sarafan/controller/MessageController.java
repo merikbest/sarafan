@@ -20,59 +20,58 @@ https://gist.github.com/drucoder/a1d8576e1d15be38aae5bac3f914b874
 
  */
 
-import merikbest.sarafan.exceptions.NotFoundException;
+import com.fasterxml.jackson.annotation.JsonView;
+import merikbest.sarafan.domain.Message;
+import merikbest.sarafan.domain.Views;
+import merikbest.sarafan.repository.MessageRepository;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("message")
 public class MessageController {
-    private int counter = 4;
-    private List<Map<String, String>> messages = new ArrayList<Map<String, String>>() {{
-        add(new HashMap<String, String>() {{put("id", "1"); put("text", "First message"); }});
-        add(new HashMap<String, String>() {{put("id", "2"); put("text", "Second message"); }});
-        add(new HashMap<String, String>() {{put("id", "3"); put("text", "Third message"); }});
-    }};
+    private final MessageRepository messageRepository;
 
-    private Map<String, String> getMessage(@PathVariable String id) {
-        return messages.stream()
-                .filter(message -> message.get("id").equals(id))
-                .findFirst()
-                .orElseThrow(NotFoundException::new);
+    @Autowired
+    public MessageController(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
     }
 
     @GetMapping
-    public List<Map<String, String>> list() {
-        return messages;
+    @JsonView(Views.IdName.class)
+    public List<Message> list() {
+        return messageRepository.findAll();
     }
 
     @GetMapping("{id}")
-    public Map<String, String> getOne(@PathVariable String id) {
-        return getMessage(id);
-    }
-
-    @PostMapping
-    public Map<String, String> create(@RequestBody Map<String, String> message) {
-        message.put("id", String.valueOf(counter++));
-        messages.add(message);
+    @JsonView(Views.FullMessage.class)
+    public Message getOne(@PathVariable("id") Message message) {
         return message;
     }
 
+    @PostMapping
+    public Message create(@RequestBody Message message) {
+        message.setCreationDate(LocalDateTime.now());
+        return messageRepository.save(message);
+    }
+
     @PutMapping("{id}")
-    public Map<String, String> update (@PathVariable String id, @RequestBody Map<String, String> message) {
-        Map<String, String> messageFromDb = getMessage(id);
-        messageFromDb.putAll(message);
-        messageFromDb.put("id", id);
-        return messageFromDb;
+    public Message update (
+            @PathVariable("id") Message messageFromDb,
+            @RequestBody Message message
+    ) {
+        //скопировать все поля из message в messageFromDb, кроме "id"
+        BeanUtils.copyProperties(message, messageFromDb, "id");
+
+        return messageRepository.save(messageFromDb);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable String id) {
-        Map<String, String> message = getMessage(id);
-        messages.remove(message);
+    public void delete(@PathVariable("id")  Message message) {
+        messageRepository.delete(message);
     }
 }

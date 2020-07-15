@@ -12,13 +12,17 @@
     "@stomp/stompjs": "^5.4.4",
     "sockjs-client": "^1.4.0",
     "vue": "^2.5.17",
-    "vue-resource": "^1.5.1"
+    "vue-resource": "^1.5.1",
+    "vuetify": "^2.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@mdi/js": "^5.3.45",
     "babel-loader": "^8.0.2",
+    "css-loader": "^3.6.0",
     "vue-loader": "^15.4.1",
+    "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.17.0",
     "webpack-cli": "^3.1.0",

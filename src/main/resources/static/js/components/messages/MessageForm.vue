@@ -1,8 +1,14 @@
 <template>
-    <div>
-        <input type="text" placeholder="Write something" v-model="text"/>
-        <input type="button" value="Save" @click="save"/>
-    </div>
+    <v-layout>
+        <v-text-field
+                label="New message"
+                placeholder="Write something"
+                v-model="text"
+        />
+        <v-btn @click="save">
+            Save
+        </v-btn>
+    </v-layout>
 </template>
 
 <script>
@@ -27,24 +33,6 @@
                 sendMessage({id: this.id, text: this.text})
                 this.text = ''
                 this.id = ''
-                /*const message = { text: this.text }
-                if (this.id) {
-                    this.$resource('/message{/id}').update({id: this.id}, message).then(result =>
-                        result.json().then(data => {
-                            const index = getIndex(this.messages, data.id)
-                            this.messages.splice(index, 1, data)
-                            this.text = ''
-                            this.id = ''
-                        })
-                    )
-                } else {
-                    this.$resource('/message{/id}').save({}, message).then(result =>
-                        result.json().then(data => {
-                            this.messages.push(data)
-                            this.text = ''
-                        })
-                    )
-                }*/
             }
         }
     }

@@ -1,11 +1,11 @@
-package util;
+package merikbest.sarafan.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import dto.EventType;
-import dto.ObjectType;
-import dto.WsEventDto;
+import merikbest.sarafan.dto.EventType;
+import merikbest.sarafan.dto.ObjectType;
+import merikbest.sarafan.dto.WsEventDto;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 

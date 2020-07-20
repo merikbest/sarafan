@@ -12,9 +12,7 @@ export default new Vuex.Store({
         logoutIcon: mdiExitToApp
     },
     getters: {
-        sortedMessages() {
-            return this.messages.sort((a, b) => -(a.id - b.id))
-        }
+        sortedMessages: state => state.messages.sort((a, b) => -(a.id - b.id))
     },
     mutations: {
         addMessageMutation(state, message) {
@@ -38,16 +36,16 @@ export default new Vuex.Store({
             if (deletionIndex > -1) {
                 state.messages = [
                     ...state.messages.slice(0, deletionIndex),
-                    ...state.messages.slice(deletionIndex + 1),
+                    ...state.messages.slice(deletionIndex + 1)
                 ]
             }
         },
     },
     actions: {
-        async addMessageAction({commit}, message) {
+        async addMessageAction({commit, state}, message) {
             const result = await messagesApi.add(message)
             const data = await result.json()
-            const index = this.messages.findIndex(item => item.id === data.id)
+            const index = state.messages.findIndex(item => item.id === data.id)
 
             if (index > -1) {
                 commit('updateMessageMutation', data)

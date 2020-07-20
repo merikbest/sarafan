@@ -1,4 +1,4 @@
-package dto;
+package merikbest.sarafan.dto;
 
 public enum ObjectType {
     MESSAGE

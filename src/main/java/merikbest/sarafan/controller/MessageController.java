@@ -21,15 +21,15 @@ https://gist.github.com/drucoder/a1d8576e1d15be38aae5bac3f914b874
  */
 
 import com.fasterxml.jackson.annotation.JsonView;
-import dto.EventType;
-import dto.ObjectType;
+import merikbest.sarafan.dto.EventType;
+import merikbest.sarafan.dto.ObjectType;
 import merikbest.sarafan.domain.Message;
 import merikbest.sarafan.domain.Views;
 import merikbest.sarafan.repository.MessageRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import util.WsSender;
+import merikbest.sarafan.util.WsSender;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,7 +44,7 @@ public class MessageController {
     @Autowired
     public MessageController(MessageRepository messageRepository, WsSender wsSender) {
         this.messageRepository = messageRepository;
-        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.Id.class);
+        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class);
     }
 
     @GetMapping

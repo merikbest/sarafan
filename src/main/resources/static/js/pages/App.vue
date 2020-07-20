@@ -9,35 +9,24 @@
             </v-btn>
         </v-app-bar>
         <v-main>
-            <v-container v-if="!profile">Необходимо авторизоваться через
-                <a href="/login">Google</a>
-            </v-container>
-            <v-container v-if="profile">
-                <messages-list />
-            </v-container>
+            <router-view></router-view>
         </v-main>
     </v-app>
 </template>
 
 <script>
     import {mapState, mapMutations} from 'vuex'
-    import MessagesList from 'components/messages/MessageList.vue'
     import {addHandler} from 'util/ws'
     import {mdiExitToApp} from '@mdi/js'
 
     export default {
-        components: {
-            MessagesList
-        },
         computed: mapState(['profile']),
         methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
-        // data() {
-        //     return {
-        //         messages: frontendData.messages,
-        //         profile: frontendData.profile,
-        //         logoutIcon: mdiExitToApp
-        //     }
-        // },
+        data() {
+            return {
+                logoutIcon: mdiExitToApp
+            }
+        },
         created() {
             addHandler(data => {
                 if (data.objectType === 'MESSAGE') {
@@ -52,11 +41,10 @@
                             this.removeMessageMutation(data.body)
                             break
                         default:
-                            console.error(`Looks like event type if unknown "${data.eventType}"`)
+                            console.error(`Looks like the event type if unknown "${data.eventType}"`)
                     }
                 } else {
                     console.error(`Looks like the object type if unknown "${data.objectType}"`)
-
                 }
             })
         }

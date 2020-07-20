@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import 'api/resource'
+import router from "./router/router";
 import App from 'pages/App.vue'
 import {connect} from './util/ws'
 import Vuetify from 'vuetify'
@@ -18,5 +19,6 @@ new Vue({
     vuetify: new Vuetify(),
     el: '#app',
     store,
+    router,
     render: a => a(App)
 })

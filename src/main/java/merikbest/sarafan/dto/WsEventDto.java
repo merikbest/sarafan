@@ -1,4 +1,4 @@
-package dto;
+package merikbest.sarafan.dto;
 
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonView;

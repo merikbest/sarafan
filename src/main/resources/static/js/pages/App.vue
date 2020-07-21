@@ -2,8 +2,19 @@
     <v-app>
         <v-app-bar app>
             <v-toolbar-title>Sarafan</v-toolbar-title>
+            <v-btn flat
+                   v-if="profile"
+                   :disabled="$route.path === '/'"
+                   @click="showMessages">
+                Messages
+            </v-btn>
             <v-spacer></v-spacer>
-            <span v-if="profile">{{profile.name}}</span>
+            <v-btn flat
+                   v-if="profile"
+                   :disabled="$route.path === '/profile'"
+                   @click="showProfile">
+                {{profile.name}}
+            </v-btn>
             <v-btn v-if="profile" icon href="/logout">
                 <v-icon>{{logoutIcon}}</v-icon>
             </v-btn>
@@ -21,7 +32,15 @@
 
     export default {
         computed: mapState(['profile']),
-        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+        methods: {
+            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+            showMessages() {
+                this.$route.push('/')
+            },
+            showProfile() {
+                this.$route.push('/profile')
+            }
+        },
         data() {
             return {
                 logoutIcon: mdiExitToApp
@@ -47,6 +66,11 @@
                     console.error(`Looks like the object type if unknown "${data.objectType}"`)
                 }
             })
+        },
+        beforeMount() {
+            if(!this.profile) {
+                this.$router.replace('/auth')
+            }
         }
     }
 </script>

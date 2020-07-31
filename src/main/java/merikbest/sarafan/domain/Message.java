@@ -23,6 +23,7 @@ public class Message {
     //а когда будем отдавать филды помеченые Views.FullMessage, тогда мы будем видеть филды Views.FullMessage и Views.IdName
     @JsonView(Views.Id.class)
     private Long id;
+
     @JsonView(Views.IdName.class)
     private String text;
 
@@ -30,4 +31,16 @@ public class Message {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonView(Views.FullMessage.class)
     private LocalDateTime creationDate;
+
+    @JsonView(Views.FullMessage.class)
+    private String link;
+
+    @JsonView(Views.FullMessage.class)
+    private String linkTitle;
+
+    @JsonView(Views.FullMessage.class)
+    private String linkDescription;
+
+    @JsonView(Views.FullMessage.class)
+    private String linkCover;
 }

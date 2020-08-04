@@ -130,12 +130,11 @@ public class MessageController {
     }
 
     private MetaDto getMeta(String url) throws IOException {
-        File input = new File("/tmp/input.html");
-        Document doc = Jsoup.parse(input, "UTF-8", url);
+        Document doc = Jsoup.connect(url).get();
 
         Elements title = doc.select("meta[name$=title],meta[property$=title]");
         Elements description = doc.select("meta[name$=description],meta[property$=description]");
-        Elements cover = doc.select("meta[name$=cover],meta[property$=cover]");
+        Elements cover = doc.select("meta[name$=image],meta[property$=image]");
 
         return new MetaDto(
                 getContent(title.first()),

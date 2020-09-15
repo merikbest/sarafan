@@ -21,6 +21,7 @@ https://gist.github.com/drucoder/a1d8576e1d15be38aae5bac3f914b874
  */
 
 import com.fasterxml.jackson.annotation.JsonView;
+import merikbest.sarafan.domain.User;
 import merikbest.sarafan.dto.EventType;
 import merikbest.sarafan.dto.MetaDto;
 import merikbest.sarafan.dto.ObjectType;
@@ -33,6 +34,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import merikbest.sarafan.util.WsSender;
 
@@ -75,9 +77,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message create(@RequestBody Message message) throws IOException {
+    public Message create(@RequestBody Message message,
+                          @AuthenticationPrincipal User user
+    ) throws IOException {
         message.setCreationDate(LocalDateTime.now());
         fillMeta(message);
+        message.setAuthor(user);
         Message updatedMessage = messageRepository.save(message);
 
         wsSender.accept(EventType.CREATE, updatedMessage);
